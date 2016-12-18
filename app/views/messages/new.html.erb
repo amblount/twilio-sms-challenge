@@ -5,45 +5,21 @@
 <%= form_for @message, html: {class: 'ink-form all-50 small-100 tiny-100'} do |f| %>
 
   <div class="control-group required">
-    <%= f.label :sender_email %>
-    <span>example@gmail.com</span>
+    <%= f.label :sender %>
     <div class="control">
-      <%= f.email_field :sender_email %>
-      <% if @message.errors[:sender_email] %>
-        <p class="tip error"><%= @message.errors[:sender_email].join(", ") %></p>
+      <%= f.text_field :sender %>
+      <% if @message.errors[:sender] %>
+        <p class="tip error"><%= @message.errors[:sender].join(", ") %></p>
       <% end %>
     </div>
   </div>
 
   <div class="control-group required">
-    <%= f.label :sender_phone %>
-    <span>+14159998888</span>
+    <%= f.label :recipient %>
     <div class="control">
-      <%= f.telephone_field :sender_phone %>
-      <% if @message.errors[:sender_phone] %>
-        <p class="tip error"><%= @message.errors[:sender_phone].join(", ") %></p>
-      <% end %>
-    </div>
-  </div>
-
-  <div class="control-group required">
-    <%= f.label :recipient_email %>
-    <span>example@gmail.com</span>
-    <div class="control">
-      <%= f.email_field :recipient_email %>
-      <% if @message.errors[:recipient_email] %>
-        <p class="tip error"><%= @message.errors[:recipient_email].join(", ") %></p>
-      <% end %>
-    </div>
-  </div>
-
-  <div class="control-group required">
-    <%= f.label :recipient_phone %>
-    <span>+14159998888</span>
-    <div class="control">
-      <%= f.telephone_field :recipient_phone %>
-      <% if @message.errors[:recipient_phone] %>
-        <p class="tip error"><%= @message.errors[:recipient_phone].join(", ") %></p>
+      <%= f.text_field :recipient %>
+      <% if @message.errors[:recipient] %>
+        <p class="tip error"><%= @message.errors[:recipient].join(", ") %></p>
       <% end %>
     </div>
   </div>

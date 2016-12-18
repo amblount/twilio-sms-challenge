@@ -5,15 +5,13 @@ class MessagesController < ApplicationController
 
   def create
     action = MessageCreator.new(params)
-    p '!!!!!!!!!!!'
-    p action.message
-    p '!!!!!!!!!!'
+    p action
     if action.ok?
       flash[:message] = "Message sent"
       redirect_to new_message_path
     else
       @message = action.message
-      p "NO message sorrry"
+      flash[:message] = "Message Not sent"
       render :new
     end
   end
