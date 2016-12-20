@@ -17,7 +17,7 @@ gem 'font-awesome-rails'
 gem 'twilio-ruby'
 # See https://github.com/sstephenson/execjs#readme for more supported runtimes
 # gem 'therubyracer', platforms: :ruby
-
+gem 'pry'
 # Use jquery as the JavaScript library
 gem 'jquery-rails'
 # bundle exec rake doc:rails generates the API under doc/api.

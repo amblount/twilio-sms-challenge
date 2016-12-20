@@ -1,6 +1,7 @@
+require 'pry'
+require 'twilio-ruby'
 class MessageCreator
   extend ActiveModel::Naming
-  require 'twilio-ruby'
   attr_accessor :message, :sms_record
   attr_reader   :errors
 
@@ -13,7 +14,10 @@ class MessageCreator
   end
 
   def ok?
-    update_sender && update_recipient && save_message && send_notification && send_message(@message)
+  save_message && send_notification
+    # binding.pry
+    # update_sender && update_recipient &&
+    # && send_message(@message)
   end
 
   #Start process to figure out what type of input phone | email
@@ -32,7 +36,6 @@ class MessageCreator
   end
 
   def update_recipient
-    p "im in recipient email"
     if @message.recipient_email.include? "@"
       @message.recipient_phone = nil
       @message.save
@@ -40,7 +43,6 @@ class MessageCreator
       @message.recipient_email = nil
       @message.recipient_phone = phone(@message.recipient_phone)
       @messave.save
-      p @message
     end
   end
 
@@ -104,15 +106,32 @@ class MessageCreator
 
   def send_notification
     #sends an email notification to recipient as an alert of a new message
-    MessageMailer.secure_message(@message).deliver_now
+    update_recipient
+    update_sender
+    if @message.recipient_phone == nil
+      MessageMailer.secure_message(@message).deliver_now
+    else
+      #recipient phone input
+      @message.sender_phone = phone(@message.sender_phone)
+      @message.save
+      @message.recipient_phone = phone(@message.recipient_phone)
+      @message.save
+    end
   end
 
   def save_message
     @message.secure_id = SecureRandom.urlsafe_base64(25)
     @message.save
+    p @message
   end
 
   def allowed_params(params)
-    { sender_phone:params[:message][:sender], sender_email: params[:message][:sender], recipient_phone: params[:message][:recipient], recipient_email: params[:message][:recipient], body: params[:message][:body]}
+    {
+      sender_phone: params[:message][:sender],
+      sender_email: params[:message][:sender],
+      recipient_phone: params[:message][:recipient],
+      recipient_email: params[:message][:recipient],
+      body: params[:message][:body]
+    }
   end
 end

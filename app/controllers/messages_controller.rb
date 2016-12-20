@@ -5,7 +5,6 @@ class MessagesController < ApplicationController
 
   def create
     action = MessageCreator.new(params)
-    p action
     if action.ok?
       flash[:message] = "Message sent"
       redirect_to new_message_path
