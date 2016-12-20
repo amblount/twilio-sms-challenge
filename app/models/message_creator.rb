@@ -25,8 +25,9 @@ class MessageCreator
   #ex: 12345678 => recipient_email: "12345678", recipient_phone: "12345678"
 
   def update_sender
-    if @message.sender_email.include? "@"
+    if @message.sender_text.include? "@"
       @message.sender_phone = nil
+      @message.sender_email = @message.sender_text
       @message.save
     else
       @message.sender_email = nil
@@ -36,8 +37,9 @@ class MessageCreator
   end
 
   def update_recipient
-    if @message.recipient_email.include? "@"
+    if @message.recipient_text.include? "@"
       @message.recipient_phone = nil
+      @message.recipient_email = @message.recipient_text
       @message.save
     else
       @message.recipient_email = nil
@@ -127,10 +129,8 @@ class MessageCreator
 
   def allowed_params(params)
     {
-      sender_phone: params[:message][:sender],
-      sender_email: params[:message][:sender],
-      recipient_phone: params[:message][:recipient],
-      recipient_email: params[:message][:recipient],
+      sender_text: params[:message][:sender],
+      recipient_text: params[:message][:recipient],
       body: params[:message][:body]
     }
   end
