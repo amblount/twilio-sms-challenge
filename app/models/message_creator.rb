@@ -8,8 +8,8 @@ class MessageCreator
   def initialize(params)
     @message = Message.new(allowed_params(params))
     @errors = ActiveModel::Errors.new(self)
-    account_sid = ENV["TWILIO_ACCOUNT_SID"]
-    auth_token = ENV["TWILIO_AUTH_TOKEN"]
+    account_sid = ENV["TWILIO_TEST_ACCOUNT_SID"]
+    auth_token = ENV["TWILIO_TEST_AUTH_TOKEN"]
     @client = Twilio::REST::Client.new(account_sid, auth_token)
   end
 
@@ -85,12 +85,12 @@ class MessageCreator
     end
   end
 
-  def send_message(message)
-    # @client.account.messages.create(
-    #   from: message.sender_email,
-    #   to: message.recipient_email,
-    #   body: message.body
-    # )
+  def sms_record(message)
+    @client.account.messages.create(
+      from: message.sender_phone,
+      to: message.recipient_phone,
+      body: message.secure_id
+    )
   end
 
   # active model error methods required http://api.rubyonrails.org/classes/ActiveModel/Errors.html
@@ -120,7 +120,7 @@ class MessageCreator
       @message.save
       @message.recipient_phone = phone(@message.recipient_phone)
       @message.save
-      p @message
+      p sms_record(@message)
     end
   end
 
