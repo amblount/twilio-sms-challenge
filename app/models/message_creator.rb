@@ -26,11 +26,9 @@ class MessageCreator
 
   def update_sender
     if @message.sender_text.include? "@"
-      @message.sender_phone = nil
       @message.sender_email = @message.sender_text
       @message.save
     else
-      @message.sender_email = nil
       @message.sender_phone = @message.sender_text
       phone(@message.sender_phone)
       @message.save
@@ -39,11 +37,9 @@ class MessageCreator
 
   def update_recipient
     if @message.recipient_text.include? "@"
-      @message.recipient_phone = nil
       @message.recipient_email = @message.recipient_text
       @message.save
     else
-      @message.recipient_email = nil
       @message.recipient_phone = @message.recipient_text
       phone(@message.recipient_phone)
       @message.save
