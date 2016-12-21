@@ -31,7 +31,8 @@ class MessageCreator
       @message.save
     else
       @message.sender_email = nil
-      @message.sender_phone = phone(@message.sender_phone)
+      @message.sender_phone = @message.sender_text
+      phone(@message.sender_phone)
       @message.save
     end
   end
@@ -43,8 +44,9 @@ class MessageCreator
       @message.save
     else
       @message.recipient_email = nil
-      @message.recipient_phone = phone(@message.recipient_phone)
-      @messave.save
+      @message.recipient_phone = @message.recipient_text
+      phone(@message.recipient_phone)
+      @message.save
     end
   end
 
@@ -118,13 +120,13 @@ class MessageCreator
       @message.save
       @message.recipient_phone = phone(@message.recipient_phone)
       @message.save
+      p @message
     end
   end
 
   def save_message
     @message.secure_id = SecureRandom.urlsafe_base64(25)
     @message.save
-    p @message
   end
 
   def allowed_params(params)
