@@ -85,11 +85,11 @@ class MessageCreator
     end
   end
 
-  def sms_record(message)
+  def sms_record
     @client.account.messages.create(
-      from: message.sender_phone,
-      to: message.recipient_phone,
-      body: message.secure_id
+      from: @message.sender_phone,
+      to: @message.recipient_phone,
+      body: @message.secure_id
     )
   end
 
@@ -120,7 +120,7 @@ class MessageCreator
       @message.save
       @message.recipient_phone = phone(@message.recipient_phone)
       @message.save
-      p sms_record(@message)
+      # p sms_record(@message)
     end
   end
 
